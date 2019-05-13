@@ -11,7 +11,7 @@ class Scoreboard extends Component {
 
   componentDidMount = () => {
     axios
-      .get("http://localhost:9000/scores")
+      .get("http://192.168.86.51:9000/scores")
       .then(res => {
         if (res) {
           return res.data.data;
