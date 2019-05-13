@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import MUIDataTable from "mui-datatables";
+import axios from "axios";
 
 class Scoreboard extends Component {
   constructor(props) {
@@ -8,28 +9,53 @@ class Scoreboard extends Component {
     this.state = {};
   }
 
+  componentDidMount = () => {
+    axios
+      .get("http://localhost:9000/scores")
+      .then(res => {
+        if (res) {
+          return res.data.data;
+        } else {
+          throw new Error(
+            "Something went wrong. Fetch returned null value, check if API is down"
+          );
+        }
+      })
+      .then(data => {
+        console.log(data);
+        data.map(obj => {
+          obj.score = Number(obj.score);
+        });
+        this.setState({ data });
+      });
+  };
+
   render() {
     const columns = [
-      "Rank",
-      "Name",
       {
-        name: "Score",
+        name: "name",
+        label: "Name"
+      },
+      {
+        name: "score",
+        label: "Score",
         options: {
-          customBodyRender: (value, tableMeta, updateValue) => {
-            return (
-              <p>{value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
-            );
-          }
+          //   customBodyRender: (value, tableMeta, updateValue) => {
+          //     return (
+          //       <p>{value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+          //     );
+          //   }
+          sortDirection: "desc"
         }
       },
-      "Company",
-      "Date"
-    ];
-
-    const data = [
-      [1, "Brandon Pessman", 57000000, "Clearwater Labs", "5/1/19"],
-      [2, "Alex Stout", 51000000, "Clearwater Labs", "5/2/19"],
-      [3, "Taylor Misch", 44000000, "Clearwater Labs", "5/6/19"]
+      {
+        name: "company",
+        label: "Company"
+      },
+      {
+        name: "time",
+        label: "Date"
+      }
     ];
 
     const options = {
@@ -45,7 +71,7 @@ class Scoreboard extends Component {
         <div className="table-container">
           <MUIDataTable
             title={"Terminator 3"}
-            data={data}
+            data={this.state.data}
             columns={columns}
             options={options}
           />

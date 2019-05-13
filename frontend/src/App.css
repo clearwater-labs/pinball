@@ -6,3 +6,10 @@
 .table-container {
   margin-top: 25px;
 }
+
+.form-container {
+  width: 80%;
+  max-width: 400px;
+  margin: 3% auto;
+  padding: 5% 2%;
+}

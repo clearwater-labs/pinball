@@ -3,12 +3,14 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Scoreboard from "./components/Scoreboard";
 import Layout from "./components/Layout";
+import Form from "./components/Form";
 
 class Routes extends Component {
   render() {
     return (
       <Switch>
         <Route path="/" exact component={Scoreboard} />
+        <Route path="/submit" exact component={Form} />
       </Switch>
     );
   }
