@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 var cors = require("cors");
 var Scores = require("./models/Score");
+var Machine = require("./models/Machine");
 
 // import environment variables from .env file
 require("dotenv").config();
@@ -47,11 +48,30 @@ app.use(
 app.use(bodyParser.json());
 
 app.get("/machines", (req, res) => {
-  Scores.find({}, (err, scores) => {
+  Machine.find({}, (err, machines) => {
     if (err) {
-      console.log(err);
+      res.send("error");
+      return;
     }
-    res.status(200).json({ data: ["Terminator 3"] });
+    res.status(200).json({ data: machines });
+  });
+});
+
+app.post("/machines", (req, res) => {
+  // check to see if the request has a name of the machine
+  if (!req.body.name) {
+    res.status(400).send();
+    return;
+  }
+
+  var newMachine = new Machine({ name: req.body.name });
+
+  newMachine.save(err => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+    res.status(201).send();
   });
 });
 

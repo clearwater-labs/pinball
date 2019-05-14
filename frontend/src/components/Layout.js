@@ -22,7 +22,7 @@ class Layout extends Component {
   render() {
     const classes = this.props;
     return (
-      <div>
+      <div className="app">
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" color="inherit" className={classes.grow}>

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -19,9 +19,18 @@ class Form extends Component {
     this.state = {
       submitSuccess: false,
       numberformat: "",
-      machine: ""
+      machine: "",
+      machines: [],
+      isLoaded: false
     };
   }
+
+  componentDidMount = () => {
+    axios.get("http://localhost:9000/machines").then(res => {
+      console.log(res);
+      this.setState({ machines: res.data.data, isLoaded: true });
+    });
+  };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -68,6 +77,30 @@ class Form extends Component {
     );
   }
 
+  renderMachineList = () => {
+    console.log(this.state);
+    return (
+      <FormControl required fullWidth margin="normal">
+        <InputLabel htmlFor="machine-simple">Machine</InputLabel>
+        <Select
+          fullWidth
+          value={this.state.machine}
+          onChange={this.handleChange("machine")}
+          inputProps={{
+            name: "machine",
+            id: "machine-simple"
+          }}
+        >
+          {this.state.machines.map((machine, i) => (
+            <MenuItem key={i} value={machine.name}>
+              {machine.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    );
+  };
+
   render() {
     var today = new Date();
     var date = `${today.getMonth() +
@@ -96,20 +129,7 @@ class Form extends Component {
                 margin="normal"
                 onChange={this.handleChange("name")}
               />
-              <FormControl required fullWidth margin="normal">
-                <InputLabel htmlFor="machine-simple">Machine</InputLabel>
-                <Select
-                  fullWidth
-                  value={this.state.machine}
-                  onChange={this.handleChange("machine")}
-                  inputProps={{
-                    name: "machine",
-                    id: "machine-simple"
-                  }}
-                >
-                  <MenuItem value="Terminator 3">Terminator 3</MenuItem>
-                </Select>
-              </FormControl>
+              {this.renderMachineList()}
               <TextField
                 label="Score"
                 required={true}

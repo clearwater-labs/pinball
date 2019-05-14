@@ -11,7 +11,7 @@ class Scoreboard extends Component {
 
   componentDidMount = () => {
     axios
-      .get("http://192.168.86.51:9000/scores")
+      .get("http://localhost:9000/scores")
       .then(res => {
         if (res) {
           return res.data.data;
@@ -62,7 +62,6 @@ class Scoreboard extends Component {
       filter: true,
       selectableRows: "none",
       viewColumns: false,
-      rowsPerPage: 10,
       rowsPerPageOptions: [10, 25, 50, 100, 150],
       responsive: "scroll"
     };
