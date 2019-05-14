@@ -10,6 +10,7 @@ class Scoreboard extends Component {
   }
 
   componentDidMount = () => {
+	this.interval = setInterval(() => {
     axios
       .get("http://localhost:9000/scores")
       .then(res => {
@@ -28,7 +29,12 @@ class Scoreboard extends Component {
         });
         this.setState({ data });
       });
+	}, 500);
   };
+
+componentWillUnmount(){
+	clearInterval(this.interval);
+}
 
   render() {
     const columns = [
