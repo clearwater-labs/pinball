@@ -1,16 +1,14 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import NumberFormat from "react-number-format";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
 
 class Form extends Component {
   constructor(props) {
@@ -27,7 +25,6 @@ class Form extends Component {
 
   componentDidMount = () => {
     axios.get("http://192.168.86.51:9000/machines").then(res => {
-      console.log(res);
       this.setState({ machines: res.data.data, isLoaded: true });
     });
   };
@@ -102,9 +99,6 @@ class Form extends Component {
   };
 
   render() {
-    var today = new Date();
-    var date = `${today.getMonth() +
-      1}/${today.getDate()}/${today.getFullYear()}`;
     const { numberformat } = this.state;
     return (
       <div>

@@ -24,7 +24,6 @@ class Scoreboard extends Component {
         }
       })
       .then(data => {
-        console.log(data);
         this.setState({ machines: data });
       });
     this.interval = setInterval(() => {
@@ -40,9 +39,8 @@ class Scoreboard extends Component {
           }
         })
         .then(data => {
-          console.log(data);
           data.map(obj => {
-            obj.score = Number(obj.score);
+            return (obj.score = Number(obj.score));
           });
           this.setState({ data });
         });
@@ -91,9 +89,8 @@ class Scoreboard extends Component {
     return (
       <div>
         {this.state.machines.map((machine, i) => (
-          <div className="table-container">
+          <div className="table-container" key={i}>
             <MUIDataTable
-              key={i}
               title={machine.name}
               data={this.state.data}
               columns={columns}
