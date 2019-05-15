@@ -26,7 +26,7 @@ class Form extends Component {
   }
 
   componentDidMount = () => {
-    axios.get("http://localhost:9000/machines").then(res => {
+    axios.get("http://192.168.86.51:9000/machines").then(res => {
       console.log(res);
       this.setState({ machines: res.data.data, isLoaded: true });
     });

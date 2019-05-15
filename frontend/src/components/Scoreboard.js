@@ -6,13 +6,14 @@ class Scoreboard extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      machines: []
+    };
   }
 
   componentDidMount = () => {
-	this.interval = setInterval(() => {
     axios
-      .get("http://localhost:9000/scores")
+      .get("http://localhost:9000/machines")
       .then(res => {
         if (res) {
           return res.data.data;
@@ -24,19 +25,35 @@ class Scoreboard extends Component {
       })
       .then(data => {
         console.log(data);
-        data.map(obj => {
-          obj.score = Number(obj.score);
-        });
-        this.setState({ data });
+        this.setState({ machines: data });
       });
-	}, 500);
+    this.interval = setInterval(() => {
+      axios
+        .get("http://localhost:9000/scores")
+        .then(res => {
+          if (res) {
+            return res.data.data;
+          } else {
+            throw new Error(
+              "Something went wrong. Fetch returned null value, check if API is down"
+            );
+          }
+        })
+        .then(data => {
+          console.log(data);
+          data.map(obj => {
+            obj.score = Number(obj.score);
+          });
+          this.setState({ data });
+        });
+    }, 500);
   };
 
-componentWillUnmount(){
-	clearInterval(this.interval);
-}
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
 
-  render() {
+  renderTables = () => {
     const columns = [
       {
         name: "name",
@@ -72,17 +89,24 @@ componentWillUnmount(){
       responsive: "scroll"
     };
     return (
-      <div className="container">
-        <div className="table-container">
-          <MUIDataTable
-            title={"Terminator 3"}
-            data={this.state.data}
-            columns={columns}
-            options={options}
-          />
-        </div>
+      <div>
+        {this.state.machines.map((machine, i) => (
+          <div className="table-container">
+            <MUIDataTable
+              key={i}
+              title={machine.name}
+              data={this.state.data}
+              columns={columns}
+              options={options}
+            />
+          </div>
+        ))}
       </div>
     );
+  };
+
+  render() {
+    return <div className="container">{this.renderTables()}</div>;
   }
 }
 

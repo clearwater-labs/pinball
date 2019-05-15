@@ -75,6 +75,24 @@ app.post("/machines", (req, res) => {
   });
 });
 
+app.post("/machines/:", (req, res) => {
+  // check to see if the request has a name of the machine
+  if (!req.body.name) {
+    res.status(400).send();
+    return;
+  }
+
+  var newMachine = new Machine({ name: req.body.name });
+
+  newMachine.save(err => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+    res.status(201).send();
+  });
+});
+
 app.get("/scores", (req, res) => {
   Scores.find({}, (err, scores) => {
     if (err) {
