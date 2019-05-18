@@ -75,7 +75,7 @@ app.post("/machines", (req, res) => {
   });
 });
 
-app.post("/machines/:", (req, res) => {
+app.post("/machines", (req, res) => {
   // check to see if the request has a name of the machine
   if (!req.body.name) {
     res.status(400).send();
@@ -90,6 +90,20 @@ app.post("/machines/:", (req, res) => {
       return;
     }
     res.status(201).send();
+  });
+});
+
+app.get("/machines/:machineId", (req, res) => {
+  console.log(req.params);
+  if (!req.params.machineId) {
+    res.status(400).send();
+    return;
+  }
+
+  Machine.findById(req.params.machineId, (err, machine) => {
+    Scores.find({ machine: machine.name }, (errors, scores) => {
+      res.status(200).json(scores);
+    });
   });
 });
 

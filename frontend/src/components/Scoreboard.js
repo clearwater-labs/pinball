@@ -7,7 +7,8 @@ class Scoreboard extends Component {
     super(props);
 
     this.state = {
-      machines: []
+      machines: [],
+      scores: []
     };
   }
 
@@ -25,26 +26,32 @@ class Scoreboard extends Component {
       })
       .then(data => {
         this.setState({ machines: data });
-      });
-    this.interval = setInterval(() => {
-      axios
-        .get("http://localhost:9000/scores")
-        .then(res => {
-          if (res) {
-            return res.data.data;
-          } else {
-            throw new Error(
-              "Something went wrong. Fetch returned null value, check if API is down"
-            );
-          }
-        })
-        .then(data => {
-          data.map(obj => {
-            return (obj.score = Number(obj.score));
-          });
-          this.setState({ data });
+        this.state.machines.map(machine => {
+          axios
+            .get(`http://localhost:9000/machines/${machine._id}`)
+            .then(res => {
+              console.log(res);
+              if (res) {
+                return res.data;
+              } else {
+                throw new Error(
+                  "Something went wrong. Fetch returned null value, check if API is down"
+                );
+              }
+            })
+            .then(data => {
+              // convert the string into a number
+              data.map(obj => {
+                return (obj.score = Number(obj.score));
+              });
+              var name = machine.name;
+              this.state.scores.push({ name, data });
+              this.forceUpdate();
+              console.log(this.state);
+            });
+          return true;
         });
-    }, 500);
+      });
   };
 
   componentWillUnmount() {
@@ -88,11 +95,11 @@ class Scoreboard extends Component {
     };
     return (
       <div>
-        {this.state.machines.map((machine, i) => (
+        {this.state.scores.map((scores, i) => (
           <div className="table-container" key={i}>
             <MUIDataTable
-              title={machine.name}
-              data={this.state.data}
+              title={scores.name}
+              data={scores.data}
               columns={columns}
               options={options}
             />
@@ -103,6 +110,7 @@ class Scoreboard extends Component {
   };
 
   render() {
+    console.log(this.state.scores);
     return <div className="container">{this.renderTables()}</div>;
   }
 }

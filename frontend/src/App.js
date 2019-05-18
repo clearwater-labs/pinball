@@ -4,6 +4,7 @@ import "./App.css";
 import Scoreboard from "./components/Scoreboard";
 import Layout from "./components/Layout";
 import Form from "./components/Form";
+import ErrorPage from "./components/ErrorPage";
 
 class Routes extends Component {
   render() {
@@ -11,6 +12,8 @@ class Routes extends Component {
       <Switch>
         <Route path="/" exact component={Scoreboard} />
         <Route path="/submit" exact component={Form} />
+        <Route path="/machineAdmin" exact component={Form} />
+        <Route component={ErrorPage} />
       </Switch>
     );
   }
