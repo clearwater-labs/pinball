@@ -14,7 +14,7 @@ class Scoreboard extends Component {
 
   componentDidMount = () => {
     axios
-      .get("/machines")
+      .get("http://18.233.111.106:9000/machines")
       .then(res => {
         if (res) {
           return res.data.data;
@@ -28,7 +28,7 @@ class Scoreboard extends Component {
         this.setState({ machines: data });
         this.state.machines.map(machine => {
           axios
-            .get(`/machines/${machine._id}`)
+            .get(`http://18.233.111.106:9000/machines/${machine._id}`)
             .then(res => {
               console.log(res);
               if (res) {

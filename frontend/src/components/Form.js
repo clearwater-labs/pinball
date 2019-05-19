@@ -24,7 +24,7 @@ class Form extends Component {
   }
 
   componentDidMount = () => {
-    axios.get("/machines").then(res => {
+    axios.get("http://18.233.111.106:9000/machines").then(res => {
       console.log(res.data);
       this.setState({ machines: res.data.data, isLoaded: true });
     });
@@ -33,7 +33,7 @@ class Form extends Component {
   handleSubmit = event => {
     event.preventDefault();
     axios
-      .post("/scores", {
+      .post("http://18.233.111.106:9000/scores", {
         name: this.state.name,
         company: this.state.company,
         score: this.state.numberformat,
