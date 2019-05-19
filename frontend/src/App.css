@@ -19,7 +19,13 @@ body,
 
 .form-container {
   width: 80%;
-  max-width: 400px;
+  max-width: 500px;
   margin: 3% auto;
   padding: 5% 2%;
+}
+
+.machine-table {
+  max-width: 500px;
+  width: 60%;
+  margin: 25px auto;
 }

@@ -75,6 +75,24 @@ app.post("/machines", (req, res) => {
   });
 });
 
+app.delete("/machines", (req, res) => {
+  // check to see if the request has a name of the machine
+  console.log(req.body);
+  if (!req.body.name) {
+    res.status(400).send();
+    console.log("No name supplied");
+    return;
+  }
+
+  Machine.deleteOne({ name: req.body.name }, err => {
+    if (err) {
+      res.send(400).send();
+      return;
+    }
+    res.status(202).send();
+  });
+});
+
 app.post("/machines", (req, res) => {
   // check to see if the request has a name of the machine
   if (!req.body.name) {
