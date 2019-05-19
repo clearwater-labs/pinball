@@ -35,7 +35,7 @@ class MachineAdmin extends Component {
   }
 
   componentDidMount = () => {
-    axios.get("http://localhost:9000/machines").then(res => {
+    axios.get("/machines").then(res => {
       console.log(res.data.data);
       this.setState({ data: res.data.data });
     });
@@ -59,7 +59,7 @@ class MachineAdmin extends Component {
         return;
       }
       axios
-        .post("http://localhost:9000/machines", {
+        .post("/machines", {
           name: this.state.newMachineName
         })
         .then(res => {
@@ -68,7 +68,7 @@ class MachineAdmin extends Component {
         });
     } else {
       axios
-        .delete("http://localhost:9000/machines", {
+        .delete("/machines", {
           data: {
             hello: "world",
             name: this.state.machine

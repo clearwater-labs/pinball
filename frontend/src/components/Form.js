@@ -24,7 +24,7 @@ class Form extends Component {
   }
 
   componentDidMount = () => {
-    axios.get("http://localhost:9000/machines").then(res => {
+    axios.get("/machines").then(res => {
       console.log(res.data);
       this.setState({ machines: res.data.data, isLoaded: true });
     });
@@ -33,7 +33,7 @@ class Form extends Component {
   handleSubmit = event => {
     event.preventDefault();
     axios
-      .post("http://localhost:9000/scores", {
+      .post("/scores", {
         name: this.state.name,
         company: this.state.company,
         score: this.state.numberformat,
@@ -41,7 +41,6 @@ class Form extends Component {
       })
       .then(res => {
         if (res.status === 200) {
-          console.log("yeets");
           this.setState({ submitSuccess: true });
           window.location.replace("/");
         } else {
