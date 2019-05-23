@@ -16,6 +16,7 @@ import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import axios from "axios";
+import QRCode from "qrcode.react";
 var id = 0;
 
 class MachineAdmin extends Component {
@@ -25,7 +26,9 @@ class MachineAdmin extends Component {
       data: [],
       machine: "",
       action: "add",
-      newMachineName: ""
+      newMachineName: "",
+      success: false,
+      newMachineId: null
     };
   }
 
@@ -43,7 +46,8 @@ class MachineAdmin extends Component {
 
   handleChange = name => event => {
     this.setState({
-      [name]: event.target.value
+      [name]: event.target.value,
+      newMachineId: null
     });
     console.log(this.state);
   };
@@ -64,7 +68,7 @@ class MachineAdmin extends Component {
         })
         .then(res => {
           console.log(res);
-          window.location.replace("/");
+          this.setState({ newMachineId: res.data._id });
         });
     } else {
       axios
@@ -132,45 +136,58 @@ class MachineAdmin extends Component {
             machine. This is so that it can be added later without losing
             historical scores.
           </Typography>
-          <form onSubmit={this.handleSubmit} autoComplete="off">
-            <FormControl component="fieldset">
-              <RadioGroup
-                aria-label="Add/Remove"
-                name="gender1"
-                value={this.state.action}
-                onChange={this.handleChange("action")}
-              >
-                <FormControlLabel
-                  value="add"
-                  control={<Radio color="primary" />}
-                  label="Add"
-                />
-                <FormControlLabel
-                  value="remove"
-                  control={<Radio color="primary" />}
-                  label="Remove"
-                />
-              </RadioGroup>
-            </FormControl>
-            {this.state.action === "add" ? (
-              <TextField
-                id="standard-with-placeholder"
-                label="New Machine Name"
-                value={this.state.newMachineName}
-                required={true}
-                autoFocus={true}
-                fullWidth={true}
-                margin="normal"
-                onChange={this.handleChange("newMachineName")}
+          {this.state.newMachineId ? (
+            <div>
+              <h3>
+                Machine Added! Follow this code to the machine scoreboard:
+              </h3>
+              <QRCode
+                value={`http://cs268.s3-website-us-east-1.amazonaws.com/machines/${
+                  this.state.newMachineId
+                }`}
               />
-            ) : (
-              <div>{this.renderMachineList()}</div>
-            )}
+            </div>
+          ) : (
+            <form onSubmit={this.handleSubmit} autoComplete="off">
+              <FormControl component="fieldset">
+                <RadioGroup
+                  aria-label="Add/Remove"
+                  name="gender1"
+                  value={this.state.action}
+                  onChange={this.handleChange("action")}
+                >
+                  <FormControlLabel
+                    value="add"
+                    control={<Radio color="primary" />}
+                    label="Add"
+                  />
+                  <FormControlLabel
+                    value="remove"
+                    control={<Radio color="primary" />}
+                    label="Remove"
+                  />
+                </RadioGroup>
+              </FormControl>
+              {this.state.action === "add" ? (
+                <TextField
+                  id="standard-with-placeholder"
+                  label="New Machine Name"
+                  value={this.state.newMachineName}
+                  required={true}
+                  autoFocus={true}
+                  fullWidth={true}
+                  margin="normal"
+                  onChange={this.handleChange("newMachineName")}
+                />
+              ) : (
+                <div>{this.renderMachineList()}</div>
+              )}
 
-            <Button type="submit" variant="contained" color="primary">
-              {this.state.action} Machine
-            </Button>
-          </form>
+              <Button type="submit" variant="contained" color="primary">
+                {this.state.action} Machine
+              </Button>
+            </form>
+          )}
         </Paper>
       </div>
     );
