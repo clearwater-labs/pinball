@@ -142,7 +142,7 @@ class MachineAdmin extends Component {
                 Machine Added! Follow this code to the machine scoreboard:
               </h3>
               <QRCode
-                value={`http://cs268.s3-website-us-east-1.amazonaws.com/machines/${
+                value={`http://cs268.s3-website-us-east-1.amazonaws.com/machine/${
                   this.state.newMachineId
                 }`}
               />
