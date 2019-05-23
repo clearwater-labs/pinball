@@ -67,7 +67,7 @@ class Scoreboard extends Component {
     return (
       <div className="container">
         <MUIDataTable
-          title="Hello"
+          title="Machine High Score"
           data={this.state.scores}
           columns={columns}
           options={options}
