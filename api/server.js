@@ -71,7 +71,7 @@ app.post("/machines", (req, res) => {
       res.status(500).send(err);
       return;
     }
-    res.status(201).send();
+    res.status(201).json(newMachine);
   });
 });
 
@@ -107,7 +107,8 @@ app.post("/machines", (req, res) => {
       res.status(500).send(err);
       return;
     }
-    res.status(201).send();
+    console.log(newMachine);
+    res.status(201).json(newMachine);
   });
 });
 

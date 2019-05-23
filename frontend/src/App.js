@@ -6,6 +6,7 @@ import Layout from "./components/Layout";
 import Form from "./components/Form";
 import MachineAdmin from "./components/MachineAdmin";
 import ErrorPage from "./components/ErrorPage";
+import Machine from "./components/Machine";
 
 class Routes extends Component {
   render() {
@@ -13,6 +14,7 @@ class Routes extends Component {
       <Switch>
         <Route path="/" exact component={Scoreboard} />
         <Route path="/submit" exact component={Form} />
+        <Route path="/machine/:id" component={Machine} />
         <Route path="/machineAdmin" exact component={MachineAdmin} />
         <Route component={ErrorPage} />
       </Switch>

@@ -5,6 +5,11 @@ body,
   height: 100%;
 }
 
+body {
+  background-image: url("https://assets.atlasobscura.com/media/W1siZiIsInVwbG9hZHMvYXNzZXRzLzExYzBhOGJkLWFjNzItNDIwYy1hMGRjLTQwOWZlY2MxMzYxMjE0ZWYxZTE1N2YzMzRmNTM0OV9TdGVybi1Ub3VybmFtZW50LTAzMDkxOS0xNDQuanBnIl0sWyJwIiwiY29udmVydCIsIiJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA4MSAtYXV0by1vcmllbnQiXSxbInAiLCJ0aHVtYiIsIjEyODB4PiJdXQ/Stern-Tournament-030919-144.jpg");
+  background-size: cover;
+}
+
 .container {
   width: 80%;
   margin: 0 auto;
@@ -15,6 +20,9 @@ body,
   margin-top: 25px;
   margin-bottom: 25px;
   height: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .form-container {
